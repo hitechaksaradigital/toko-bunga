@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query'
 import { fetchProducts } from '@/services/products'
 import { fetchCategories } from '@/services/categories'
 import { Link } from 'react-router-dom'
+import { useState, useEffect } from 'react'
 import { ProductCard } from '@/components/ProductCard'
 import { Skeleton } from '@/components/ui/skeleton'
 
@@ -19,17 +20,7 @@ export default function HomePage() {
 
   return (
     <div className="space-y-10">
-      <section className="rounded-2xl bg-gradient-to-r from-primary/10 to-pink-100 p-8 md:p-12">
-        <h1 className="text-3xl font-bold md:text-5xl">Kirim Bunga, Sampaikan Rasa</h1>
-        <p className="mt-3 max-w-2xl text-muted-foreground">
-          Rangkaian bunga segar untuk setiap momen spesial. Pesan online, kami antar tepat waktu.
-        </p>
-        <Link to="/catalog">
-          <button className="mt-6 rounded-lg bg-primary px-6 py-3 text-primary-foreground">
-            Lihat Katalog
-          </button>
-        </Link>
-      </section>
+      <HeroBanner />
 
       <section>
         <h2 className="mb-4 text-2xl font-semibold">Kategori</h2>
@@ -66,5 +57,58 @@ export default function HomePage() {
         )}
       </section>
     </div>
+  )
+}
+
+
+const BANNER_IMAGES = [
+  'https://images.unsplash.com/photo-1490750967868-88aa4486c946?auto=format&fit=crop&w=1600&q=80',
+  'https://images.unsplash.com/photo-1561181286-d3fee7d55364?auto=format&fit=crop&w=1600&q=80',
+  'https://images.unsplash.com/photo-1468327768560-75b778cbb551?auto=format&fit=crop&w=1600&q=80',
+]
+
+function HeroBanner() {
+  const [index, setIndex] = useState(0)
+  useEffect(() => {
+    const t = setInterval(() => setIndex((i) => (i + 1) % BANNER_IMAGES.length), 4000)
+    return () => clearInterval(t)
+  }, [])
+  return (
+    <section className="relative overflow-hidden rounded-2xl">
+      <div className="relative h-64 md:h-96">
+        {BANNER_IMAGES.map((src, i) => (
+          <img
+            key={src}
+            src={src}
+            alt="Banner toko bunga"
+            className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ${
+              i === index ? 'opacity-100' : 'opacity-0'
+            }`}
+          />
+        ))}
+        <div className="absolute inset-0 bg-black/40" />
+        <div className="absolute inset-0 flex flex-col justify-center p-8 md:p-12 text-white">
+          <h1 className="text-3xl font-bold md:text-5xl">Kirim Bunga, Sampaikan Rasa</h1>
+          <p className="mt-3 max-w-2xl text-white/90">
+            Rangkaian bunga segar untuk setiap momen spesial. Pesan online, kami antar tepat waktu.
+          </p>
+          <Link to="/catalog" className="mt-6 inline-block w-fit">
+            <button className="rounded-lg bg-primary px-6 py-3 text-primary-foreground">
+              Lihat Katalog
+            </button>
+          </Link>
+        </div>
+      </div>
+      <div className="absolute bottom-3 left-1/2 flex -translate-x-1/2 gap-2">
+        {BANNER_IMAGES.map((_, i) => (
+          <button
+            key={i}
+            onClick={() => setIndex(i)}
+            className={`h-2 w-2 rounded-full ${i === index ? 'bg-white' : 'bg-white/50'}`}
+            aria-label={`Banner ${i + 1}`}
+          />
+        ))}
+      </div>
+    </section>
   )
 }

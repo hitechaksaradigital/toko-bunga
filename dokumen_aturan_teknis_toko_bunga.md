@@ -6,7 +6,7 @@ Dokumen ini berisi standar teknis, arsitektur sistem, skema database, dan aturan
 
 ## 1. Tech Stack & Library Standards
 
-*   **Frontend Framework:** React 18+ (Vite)
+*   **Frontend Frameworks:** React 18+ (Vite)
 *   **Language:** TypeScript (Strict Mode Enabled)
 *   **Styling:** Tailwind CSS + Shadcn UI / Radix UI
 *   **Backend & Database:** Supabase (PostgreSQL, Auth, Storage, Edge Functions)

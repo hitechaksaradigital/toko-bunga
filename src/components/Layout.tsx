@@ -28,6 +28,9 @@ export function Layout() {
             <Link to="/catalog">
               <Button variant="ghost" size="sm">Katalog</Button>
             </Link>
+            <Link to="/contact">
+              <Button variant="ghost" size="sm">Kontak</Button>
+            </Link>
             {isAdmin && (
               <Link to="/admin">
                 <Button variant="ghost" size="sm">Admin</Button>

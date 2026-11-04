@@ -2,6 +2,7 @@ import { Routes, Route } from 'react-router-dom'
 import { Layout } from '@/components/Layout'
 import HomePage from '@/pages/HomePage'
 import CatalogPage from '@/pages/CatalogPage'
+import ContactPage from '@/pages/ContactPage'
 import ProductDetailPage from '@/pages/ProductDetailPage'
 import CartPage from '@/pages/CartPage'
 import CheckoutPage from '@/pages/CheckoutPage'
@@ -23,6 +24,7 @@ export default function App() {
       <Route element={<Layout />}>
         <Route index element={<HomePage />} />
         <Route path="catalog" element={<CatalogPage />} />
+        <Route path="contact" element={<ContactPage />} />
         <Route path="products/:slug" element={<ProductDetailPage />} />
         <Route path="cart" element={<CartPage />} />
         <Route path="login" element={<LoginPage />} />

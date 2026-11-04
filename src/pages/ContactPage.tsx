@@ -34,11 +34,11 @@ export default function ContactPage() {
           <CardContent className="space-y-4 text-sm">
             <div className="flex items-center gap-3">
               <Phone className="h-5 w-5 text-primary" />
-              <span>+62 812-3456-7890</span>
+              <span>088888123456</span>
             </div>
             <div className="flex items-center gap-3">
               <Mail className="h-5 w-5 text-primary" />
-              <span>halo@tokobunga.id</span>
+              <span>hitechaksaradigital@gmail.com</span>
             </div>
             <div className="flex items-center gap-3">
               <MapPin className="h-5 w-5 text-primary" />

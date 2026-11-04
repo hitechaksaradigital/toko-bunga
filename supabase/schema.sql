@@ -57,6 +57,16 @@ create table if not exists public.order_items (
   price_at_purchase numeric not null
 );
 
+-- Helper function to check admin role (avoids RLS recursion on profiles)
+create or replace function public.is_admin()
+returns boolean
+language sql
+security definer
+set search_path = public
+as $$
+  select exists (select 1 from public.profiles where id = auth.uid() and role = 'admin');
+$$;
+
 -- RLS
 alter table public.profiles enable row level security;
 alter table public.categories enable row level security;
@@ -66,9 +76,7 @@ alter table public.order_items enable row level security;
 
 -- profiles policies
 create policy "profiles_select_own_or_admin" on public.profiles
-  for select using (
-    auth.uid() = id or exists (select 1 from public.profiles p where p.id = auth.uid() and p.role = 'admin')
-  );
+  for select using (auth.uid() = id or public.is_admin());
 create policy "profiles_update_own" on public.profiles
   for update using (auth.uid() = id);
 
@@ -76,28 +84,24 @@ create policy "profiles_update_own" on public.profiles
 create policy "categories_public_select" on public.categories
   for select using (true);
 create policy "categories_admin_write" on public.categories
-  for all using (exists (select 1 from public.profiles p where p.id = auth.uid() and p.role = 'admin'))
-  with check (exists (select 1 from public.profiles p where p.id = auth.uid() and p.role = 'admin'));
+  for all using (public.is_admin()) with check (public.is_admin());
 
 -- products policies
 create policy "products_public_select" on public.products
   for select using (true);
 create policy "products_admin_write" on public.products
-  for all using (exists (select 1 from public.profiles p where p.id = auth.uid() and p.role = 'admin'))
-  with check (exists (select 1 from public.profiles p where p.id = auth.uid() and p.role = 'admin'));
+  for all using (public.is_admin()) with check (public.is_admin());
 
 -- orders policies
 create policy "orders_select_own_or_admin" on public.orders
-  for select using (
-    auth.uid() = user_id or exists (select 1 from public.profiles p where p.id = auth.uid() and p.role = 'admin')
-  );
+  for select using (auth.uid() = user_id or public.is_admin());
 create policy "orders_insert_authenticated" on public.orders
   for insert with check (auth.uid() is not null);
 
 -- order_items policies
 create policy "order_items_select_via_order" on public.order_items
   for select using (
-    exists (select 1 from public.orders o where o.id = order_id and (o.user_id = auth.uid() or exists (select 1 from public.profiles p where p.id = auth.uid() and p.role = 'admin')))
+    exists (select 1 from public.orders o where o.id = order_id and (o.user_id = auth.uid() or public.is_admin()))
   );
 create policy "order_items_insert_authenticated" on public.order_items
   for insert with check (auth.uid() is not null);
@@ -124,14 +128,8 @@ on conflict (id) do nothing;
 create policy "product_images_public_read" on storage.objects
   for select using (bucket_id = 'product-images');
 create policy "product_images_admin_write" on storage.objects
-  for insert with check (
-    bucket_id = 'product-images' and exists (select 1 from public.profiles p where p.id = auth.uid() and p.role = 'admin')
-  );
+  for insert with check (bucket_id = 'product-images' and public.is_admin());
 create policy "product_images_admin_update" on storage.objects
-  for update using (
-    bucket_id = 'product-images' and exists (select 1 from public.profiles p where p.id = auth.uid() and p.role = 'admin')
-  );
+  for update using (bucket_id = 'product-images' and public.is_admin());
 create policy "product_images_admin_delete" on storage.objects
-  for delete using (
-    bucket_id = 'product-images' and exists (select 1 from public.profiles p where p.id = auth.uid() and p.role = 'admin')
-  );
+  for delete using (bucket_id = 'product-images' and public.is_admin());

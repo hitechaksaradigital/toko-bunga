@@ -57,6 +57,9 @@ export type OrderItem = {
 
 // Supabase generated-style Database type
 export type Database = {
+  __InternalSupabase: {
+    PostgrestVersion: '14.18'
+  }
   public: {
     Tables: {
       profiles: {

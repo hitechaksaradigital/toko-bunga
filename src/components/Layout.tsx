@@ -2,7 +2,7 @@ import { Link, Outlet, useNavigate } from 'react-router-dom'
 import { useAuth } from '@/context/AuthContext'
 import { useCartStore } from '@/store/cartStore'
 import { signOut } from '@/services/auth'
-import { ShoppingCart, User, LogOut, Flower2 } from 'lucide-react'
+import { ShoppingCart, User, LogOut } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
 const CURRENT_YEAR = new Date().getFullYear()
@@ -22,7 +22,8 @@ export function Layout() {
       <header className="sticky top-0 z-40 border-b bg-background/80 backdrop-blur">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
           <Link to="/" className="flex items-center gap-2 text-xl font-bold text-primary">
-            <Flower2 className="h-6 w-6" /> Toko Bunga
+            <img src="/ebook.jpeg" alt="Logo Toko Bunga" className="h-8 w-8 rounded object-cover" />
+            Toko Bunga
           </Link>
           <nav className="flex items-center gap-2">
             <Link to="/catalog">

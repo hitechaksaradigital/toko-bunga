@@ -15,7 +15,7 @@ const BANNER_IMAGES = [
 ]
 
 const GALLERY = [
-  'https://images.unsplash.com/photo-1526047932273-341f2a76c92b?auto=format&fit=crop&w=600&q=80',
+  'https://images.unsplash.com/photo-1525310072745-f49212b5ac6d?auto=format&fit=crop&w=600&q=80',
   'https://images.unsplash.com/photo-1455659817273-f96807779a8a?auto=format&fit=crop&w=600&q=80',
   'https://images.unsplash.com/photo-1508610048659-a06b669e3321?auto=format&fit=crop&w=600&q=80',
   'https://images.unsplash.com/photo-1487070183336-b863922373d4?auto=format&fit=crop&w=600&q=80',

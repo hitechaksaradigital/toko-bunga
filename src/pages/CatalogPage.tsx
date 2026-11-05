@@ -3,6 +3,7 @@ import { useSearchParams } from 'react-router-dom'
 import { fetchProducts } from '@/services/products'
 import { fetchCategories } from '@/services/categories'
 import { ProductCard } from '@/components/ProductCard'
+import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Skeleton } from '@/components/ui/skeleton'
@@ -65,7 +66,16 @@ export default function CatalogPage() {
           ))}
         </div>
       ) : (products ?? []).length === 0 ? (
-        <div className="py-12 text-center text-muted-foreground">Produk tidak ditemukan.</div>
+        <div className="py-20 text-center space-y-4">
+      <div className="mx-auto w-16 h-16 rounded-full bg-muted flex items-center justify-center text-muted-foreground">
+        <span className="text-2xl">🔍</span>
+      </div>
+      <div>
+        <h3 className="text-lg font-medium">Produk tidak ditemukan</h3>
+        <p className="text-sm text-muted-foreground">Coba ubah kata kunci atau kategori pencarian Anda.</p>
+      </div>
+      <Button variant="outline" onClick={() => window.location.reload()}>Reset Pencarian</Button>
+    </div>
       ) : (
         <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
           {(products ?? []).map((p) => (

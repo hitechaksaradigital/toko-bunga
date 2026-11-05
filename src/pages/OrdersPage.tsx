@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { useAuth } from '@/context/AuthContext'
 import { fetchOrdersByUser } from '@/services/orders'
 import { formatCurrency, formatDate } from '@/utils/format'
+import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Skeleton } from '@/components/ui/skeleton'
 
@@ -20,7 +21,18 @@ export default function OrdersPage() {
     <div className="space-y-4">
       <h1 className="text-2xl font-bold">Riwayat Pesanan</h1>
       {(orders ?? []).length === 0 ? (
-        <div className="py-12 text-center text-muted-foreground">Belum ada pesanan.</div>
+        <div className="py-20 text-center space-y-4">
+      <div className="mx-auto w-16 h-16 rounded-full bg-muted flex items-center justify-center text-muted-foreground">
+        <span className="text-2xl">📦</span>
+      </div>
+      <div>
+        <h3 className="text-lg font-medium">Belum ada pesanan</h3>
+        <p className="text-sm text-muted-foreground">Pesanan Anda akan muncul di sini setelah Anda berbelanja.</p>
+      </div>
+      <Link to="/catalog" className="inline-block">
+        <Button>Mulai Belanja Sekarang</Button>
+      </Link>
+    </div>
       ) : (
         <div className="space-y-3">
           {(orders ?? []).map((o) => (
